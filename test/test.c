@@ -58,7 +58,8 @@ void test_softTimer_setCallback(void){
     TEST_ASSERT_NOT_EQUAL(NULL, st.callback);
 }
 
-void test_softTimer_tickHandler(void){
+void test_softTimer_tickHandler_basic(void){
+    testVal_reset();
     TEST_ASSERT_EQUAL(0, testVal);
     struct softTimer st;
     softTimer_init(&st);
@@ -72,6 +73,21 @@ void test_softTimer_tickHandler(void){
     TEST_ASSERT_EQUAL(0, st.counter);
 }
 
+void test_softTimer_tickHandler_complex(void){
+    testVal_reset();
+    TEST_ASSERT_EQUAL(0, testVal);
+    struct softTimer st;
+    softTimer_init(&st);
+    softTimer_setTickMs(&st, 3);
+    softTimer_setInterval(&st, 100);
+    softTimer_setCallback(&st, test_callback);
+    for(uint32_t i = 0 ; i < 50 ; ++i){
+        softTimer_tickHandler(&st);
+    }
+    TEST_ASSERT_EQUAL(48, st.counter);
+    TEST_ASSERT_EQUAL(1, testVal);
+}
+
 int main(void){
     UNITY_BEGIN();
     RUN_TEST(test_softTimer_init);
@@ -79,6 +95,7 @@ int main(void){
     RUN_TEST(test_softTimer_tickMs);
     RUN_TEST(test_softTimer_resetCounter);
     RUN_TEST(test_softTimer_setCallback);
-    RUN_TEST(test_softTimer_tickHandler);
+    RUN_TEST(test_softTimer_tickHandler_basic);
+    RUN_TEST(test_softTimer_tickHandler_complex);
     return UNITY_END();
 }

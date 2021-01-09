@@ -25,7 +25,7 @@ void softTimer_setCallback(struct softTimer *tim, softTimerCallback_t cb){
 
 void softTimer_tickHandler(struct softTimer *tim){
     tim->counter += tim->tick_ms;
-    if(tim->counter == tim->interval){
+    if(tim->counter >= tim->interval){
         if(tim->callback != NULL){
             tim->callback();
         }
