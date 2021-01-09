@@ -10,7 +10,7 @@ $ gcc test/test.c test/unity/unity.c src/soft_tim.c -o test
 $ make test-build
 $ make test-run
 $ make test-iterate
-& make test-clean
+$ make test-clean
 ```
 
 ![output_log](output_log.png)
